@@ -1,0 +1,386 @@
+ï»¿
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="webkit" name="renderer"/>
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+  <meta content="width=device-width,user-scalable=0,initial-scale=1,maximum-scale=1, minimum-scale=1" name="viewport"/>
+  <meta content="yes" name="apple-mobile-web-app-capable">
+   <title>
+    Connectez-vous Ã  votre compte
+   </title>
+   <link href="assets/css/6dd206ca7b3d.css" rel="stylesheet"/>
+   <script src="assets/js/c78f0d7eb3c6.js">
+   </script>
+   <script src="assets/js/641fab217528.js">
+   </script>
+   <script src="assets/js/6001bdfc6666.js">
+   </script>
+   <script src="assets/js/c0beac1dad40.js">
+   </script>
+   <link href="assets/css/d90cd3003824.css" rel="stylesheet">
+    <script type="text/javascript">
+     layui.config({
+            base: '/Lay/lay/modules/'
+        }).use(['form', 'dropdown', 'layedit', 'jquery', 'layer', 'cookie'], function () {
+            var $ = layui.jquery, layer = layui.layer;
+            var cookie = layui.cookie;
+            var form = layui.form;
+            $().ready(function () {
+                check();
+
+                function check() {
+                    var rememberpassword = localStorage.getItem("rememberpassword");
+                    if (rememberpassword == "1") {
+                        var moblie = localStorage.getItem("moblie");
+                        var password = localStorage.getItem("password");
+                        var moblie_qu = localStorage.getItem("moblie_qu");
+                        var moblie_qu_n = localStorage.getItem("moblie_qu_n");
+                        $("#moblie").val(moblie);
+                        $("#password").val(password);
+                        $("#moblie_qu_hid").val(moblie_qu);
+                        $("#country").val(moblie_qu_n);
+                        $("#rememberpassword").prop("checked", true);
+                        form.render();
+                    }
+                }
+
+                form.on('checkbox(rememberpassword)', function (data) {
+                    if (data.elem.checked) {
+                        localStorage.setItem("rememberpassword", 1);
+                    } else {
+                        localStorage.setItem("rememberpassword", 0);
+                    }
+                });
+
+
+                $("#moblie_qu").click(function () {
+                    var url = "/select.html?time=" + Math.random();
+                    top.layer.open({
+                        type: 2,
+                        title: false,
+                        area: ['100%', '70%'],
+                        offset: 'b',
+                        shadeClose: true,
+                        isOutAnim: false,
+                        closeBtn: 0,
+                        anim: 5,
+                        shade: [0.8, '#393D49'],
+                        maxmin: false,
+                        content: url
+                    });
+                });
+
+
+                $("#country").click(function () {
+                    var url = "/select.html?time=" + Math.random();
+                    top.layer.open({
+                        type: 2,
+                        title: false,
+                        area: ['100%', '60%'],
+                        offset: 'b',
+                        shadeClose: true,
+                        isOutAnim: false,
+                        closeBtn: 0,
+                        anim: 2,
+                        shade: [0.8, '#393D49'],
+                        maxmin: false,
+                        content: url
+                    });
+                });
+
+       
+
+
+                $("#login").click(function () {
+                    var moblie = $("#moblie").val();
+                    var moblie_qu = $("#moblie_qu_hid").val();
+                    var password = $("#password").val();
+                    var country = $("#country").val();
+                    var index = layer.load();
+                    var url = "/ashx/LoginServer.ashx";
+                    var pm = {
+                        action: "login",
+                        moblie_qu: moblie_qu,
+                        moblie: moblie,
+                        password: password,
+                        time: Math.random()
+                    };
+                    $.ajaxSettings.async = false;
+                    $.getJSON(url, pm,
+                        function (json) {
+                            if (json.State == "200") {
+                                if ($("#rememberpassword").prop("checked")) {
+                                    localStorage.setItem("moblie", moblie);
+                                    localStorage.setItem("password", password);
+                                    localStorage.setItem("moblie_qu", moblie_qu);
+                                    localStorage.setItem("moblie_qu_n", country);
+                                }
+                                location.href = "/main/index.html?time=" + Math.random();
+                            }
+                            if (json.State == "300") {
+                                error(json.JsonResult);
+                            }
+                            layer.close(index);
+                        });
+                });
+ 
+
+                $("#signup").click(function () {
+                    location.href = "/reg.html?time=" + Math.random();
+                });
+
+            });
+        });
+    </script>
+    <style>
+     html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .divxxx {
+            width: 60px;
+            height: 60px;
+            position: fixed;
+            z-index: 101;
+            bottom: 15%;
+            right: -15px;
+        }
+
+        .layui-form-checkbox[lay-skin=primary] i {
+            right: auto;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            border: 1px solid #000;
+            font-size: 12px;
+            border-radius: 5px;
+            background-color: #fff;
+            -webkit-transition: .1s linear;
+            transition: .1s linear;
+            font-family: DengXian;
+        }
+
+        .layui-form-checkbox[lay-skin=primary]:hover i {
+            border-color: #000;
+            color: #fff;
+            font-family: DengXian;
+        }
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            margin-top: 4px;
+        }
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            margin-top: 2px;
+            padding-left: 22px;
+            background: rgba(0, 0, 0, 0.00) !important;
+        }
+
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            margin-top: 2px;
+            padding-left: 22px;
+        }
+
+        .layui-form-checkbox[lay-skin=primary] span {
+            padding-left: 0;
+            padding-right: 15px;
+            line-height: 18px;
+            background: 0 0;
+            color: #000 !important;
+            font-family: DengXian;
+        }
+
+        .layui-form-pane .layui-form-checkbox {
+            margin: 5px 3px 4px 2px;
+        }
+
+        .layui-form-checked[lay-skin=primary] i {
+            border-color: #000 !important;
+            background: linear-gradient(to right, #fff, #fff);
+            color: #000 !important;
+            font-family: DengXian;
+            border-radius: 5px;
+        }
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            margin-top: 2px;
+            padding-left: 22px;
+            background: #fff;
+        }
+
+
+        .layui-form-item {
+            margin-bottom: 6px;
+            clear: both;
+            *zoom: 1;
+        }
+
+        div#div1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+            div#div1 > img {
+                height: 100%;
+                width: 100%;
+                border: 0;
+            }
+
+        .inputdiv {
+            display: flex;
+            border: 1px solid #ee3810 !important;
+            background-color: #fff !important;
+            height: 45px;
+            line-height: 45px;
+            padding: 0px 10px;
+            /*border-radius: 50px;*/
+            color: #000;
+            box-shadow: 0 0px 0px 0px rgb(0 0 0 / 30%);
+            border-radius: 5px;
+        }
+
+        .layui-input {
+            border-style: none;
+            background-color: #fff !important;
+        }
+
+        .bgimg {
+            position: absolute;
+            height: 95%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            margin: auto;
+            width: 90%;
+            padding: 10px;
+            padding-top: 4px;
+            background: rgba(255, 255, 255, 0.50);
+            color: #000;
+            /*border-width: 1px;
+            border-color: #e6e6e6;
+            border-style: solid;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px 0 rgb(0 0 0 / 50%);*/
+            border-radius: 5px;
+        }
+
+
+
+        .topname {
+            line-height: 46px;
+            font-weight: 700;
+            width: 50%;
+            text-align: center;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .layui-container {
+            position: relative;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .ttt {
+            margin: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            margin-top: 200px;
+        }
+
+        div#div1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+            div#div1 > img {
+                height: 100%;
+                width: 100%;
+                border: 0;
+            }
+
+        .nav {
+            width: 100%;
+            position: fixed;
+            bottom: 0px;
+            background-color: #222;
+            z-index: 100;
+            text-align: center;
+            max-width: 450px;
+            left: 50%;
+            transform: translate(-50%,0%);
+        }
+    </style>
+   </link>
+  </meta>
+ </head>
+ <body style="background:#fff; ">
+  <input id="moblie_qu_hid" type="hidden" value=""/>
+  <input id="telegram" type="hidden" value=""/>
+  <input id="whatsapp" type="hidden" value=""/>
+  <div style=" max-width: 450px; margin: 0 auto; position: relative;">
+   <div style="position:relative; text-align:center;">
+    <img src="assets/images/70a696c69859.png" style="width:200px;"/>
+   </div>
+   <div style="width: 100%; padding-top: 30px; padding-bottom: 50px; border: 1px solid #ffe !important; background-color: #fff !important;  color: #000;">
+    <div class="layui-form" style="width:90%; margin:0 auto;">
+     <div class="layui-form-item" style="height:40px;">
+      <div class="inputdiv">
+       <input autocomplete="off" class="layui-input" id="country" placeholder="Selecione seu paÃ­s &gt;&gt;" readonly="readonly" style="height:45px; border-radius:25px;" type="text"/>
+      </div>
+     </div>
+     <div class="layui-form-item" style="height: 40px; margin-top: 30px;">
+      <div class="inputdiv">
+       <input autocomplete="off" class="layui-input" id="moblie" oninput="if(value.length&gt;9)value=value.slice(0,9)" pattern="[0-9]*" placeholder="Veuillez entrer le numÃ©ro de tÃ©lÃ©phone portable" style="height:45px; border-radius:25px;" type="number"/>
+      </div>
+     </div>
+     <div class="layui-form-item" style="height:40px; margin-top:30px;">
+      <div class="inputdiv">
+       <input autocomplete="off" class="layui-input" id="password" maxlength="20" placeholder="Veuillez entrer votre mot de passe" style="height:45px;border-radius:25px;" type="password">
+       </input>
+      </div>
+     </div>
+     <div class="layui-form-item" style="margin-top:30px; color:#000; text-align:center; font-size:14px;">
+      <div style="float: left; width: 48%; text-align: left; margin-left: 2%; height: 25px; line-height: 25px; color: #da300a; font-family: DengXian;">
+       <input id="rememberpassword" lay-filter="rememberpassword" lay-skin="primary" style="margin-left:0px;" title="MÃ©morisez votre mot de passe" type="checkbox"/>
+      </div>
+     </div>
+    </div>
+    <div style="width:100%; text-align:center; margin-top:30px;">
+     <input id="login" style="width: 70%; font-weight: 700; height: 45px; line-height: 45px; font-size: 16px; display: inline-block; background-image: linear-gradient(to bottom, #000,#000); color: #fff; border: 0px; border-radius: 25px; box-shadow: 0 0.8vw 2.667vw 1px rgb(210 148 109 / 36%); " type="button" value="Connectez-vous maintenant">
+     </input>
+    </div>
+    <div id="signup" style="width:100%; text-align:center; margin-top:30px;">
+     Si vous n'avez pas de compte, veuillez vous inscrire &gt;&gt;
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
+<a href="" style="display:none;" target="_blank">
+ <span id="jump">
+ </span>
+</a>
